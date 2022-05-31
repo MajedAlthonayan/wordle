@@ -2,17 +2,20 @@ import React, { useEffect } from 'react'
 import { directive } from '@babel/types';
 import useWordle from '../hooks/useWordle';
 
-export default function Wordle({solution}){
-    
-    const {currentGuess, handleKeyup} = useWordle(solution)
+export default function Wordle({ solution }) {
+
+    const { currentGuess, handleKeyup } = useWordle(solution)
 
     useEffect(() => {
         window.addEventListener('keyup', handleKeyup)
 
         return () => window.removeEventListener('keyup', handleKeyup)
     }, [handleKeyup])
-    
-    return(
-        <div>current guess - {currentGuess}</div>
+
+    return (
+        <div>
+            <div>solution - {solution}</div>
+            <div>current guess - {currentGuess}</div>
+        </div>
     )
 }

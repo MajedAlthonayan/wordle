@@ -8,7 +8,28 @@ const useWordle = (solution) =>{
 
 
     const formatGuess = () => {
+        let solutionArray = [...solution]
+        let formattedGuess = [...currentGuess].map((l) => {
+            return {key: l, color: 'grey'}
+        })
 
+        // find green letters
+        formattedGuess.forEach((l, i) => {
+            if(solutionArray[i] === l.key){
+                formattedGuess[i].color = 'green'
+                solutionArray[i] = null
+            }
+        })
+
+        //find any yelow letters
+
+        formattedGuess.forEach((l, i) => {
+            if(solutionArray.includes(l.key) && l.color !== 'green'){
+                formattedGuess[i].color = 'yellow'
+                solutionArray[solutionArray.indexOf(l.key)] = null
+            }
+        })
+        return formattedGuess
     }
 
     const addNewGuess = () => {
@@ -16,7 +37,19 @@ const useWordle = (solution) =>{
     }
 
     const handleKeyup = ({ key }) => {
-        
+        if(key === 'Enter'){
+            if(turn > 5){
+                return
+            }
+            if(history.includes(currentGuess)){
+                return
+            }
+            if(currentGuess.length != 5){
+                return
+            }
+            const formatted = formatGuess()
+            console.log(formatted)
+        }
         if(key === 'Backspace'){
             setCurrentGuess((prev) => {
                 return prev.slice(0, -1)
